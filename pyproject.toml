@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "zeconfig"
+version = "0.0.2"
+description = "Configuration Manager Package"
+authors = ["Uadson Feitosa <uadsonpy@gmail.com>"]
+license = "GNU Affero General Public License v3.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.12.*"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
