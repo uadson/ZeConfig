@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zeconfig"
-version = "0.0.3"
+version = "0.0.4"
 description = "Configuration Manager Package"
 authors = ["Uadson Feitosa <uadsonpy@gmail.com>"]
 license = "GNU Affero General Public License v3.0"
