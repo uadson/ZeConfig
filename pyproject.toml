@@ -1,13 +1,14 @@
 [tool.poetry]
 name = "zeconfig"
-version = "0.0.4"
+version = "0.0.5"
 description = "Configuration Manager Package"
 authors = ["Uadson Feitosa <uadsonpy@gmail.com>"]
 license = "GNU Affero General Public License v3.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = ">=3.11"
+tomli = { version = "^2.0.0", python = "<3.11" }
 
 
 [build-system]
