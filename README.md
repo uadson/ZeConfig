@@ -1,5 +1,7 @@
 # ZeConfig
-
+[![Buid](https://github.com/uadson/ZeConfig/actions/workflows/zconf-build.yml/badge.svg)](https://github.com/uadson/ZeConfig/actions/workflows/zconf-build.yml)
+[![Tests](https://github.com/uadson/ZeConfig/actions/workflows/zconf-tests.yml/badge.svg)](https://github.com/uadson/ZeConfig/actions/workflows/zconf-tests.yml)
+[![Release](https://github.com/uadson/ZeConfig/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/uadson/ZeConfig/actions/workflows/release.yml)
 
 ZeConfig é um gerenciador de configurações para aplicações Python. Este pacote foi criado para simplificar o acesso a dados de configuração sensíveis, como credenciais de banco de dados e informações de configuração que precisam ser lidas de forma segura e estruturada. ZeConfig suporta arquivos de configuração nos formatos **TOML** e **JSON**.
 
