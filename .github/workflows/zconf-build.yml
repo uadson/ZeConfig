@@ -1,0 +1,27 @@
+name: ZeConfig Buid
+
+on: 
+  push:
+    branches:
+      - main  # ou o nome do branch principal do seu repositório
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.13'  # Ou a versão que você está usando
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
