@@ -1,4 +1,4 @@
-name: ZeConfig Tests
+name: Tests
 
 on: 
   push:
