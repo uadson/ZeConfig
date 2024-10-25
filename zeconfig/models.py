@@ -1,3 +1,5 @@
+import json
+
 try:
     import tomllib
 except ImportError:
@@ -6,38 +8,82 @@ except ImportError:
 
 class ZeConfig:
     """
-        ZeConfig é uma gerenciador de configurações.
-        
-        Ele identifica as configurações de uma aplição, como conexão com banco de dados,
-        dados de registros mais sensíveis e torna mais simples a gestão dos mesmos.
-        
-        Atributo(s):
-        
-        settings_file: type(str) = recebe o caminho ao qual está o arquivo de configuração com extensão .toml
-        
-        Método(s):
-        
-        config: function() = realiza a leitura do arquivo e retorna os dados lidos.
-        
-        -------------------------------------------------------------------------------------------------------
-        ZeConfig is a configuration manager.
+    PT-BR
+    ZeConfig é uma classe que gerencia as configurações de uma aplicação,
+    facilitando o acesso a dados sensíveis e informações de conexão com
+    banco de dados.
+    A classe suporta arquivos de configuração em formato TOML e JSON,
+    identificando automaticamente o tipo de arquivo e retornando seu
+    conteúdo de forma estruturada.
 
-        It identifies the configurations of an application, such as database connection,
-        more sensitive registry data and makes their management easier.
+    Parâmetros:
+    - settings_file (str): Caminho do arquivo de configuração a ser lido.
 
-        Attribute(s):
+    Métodos:
+    - get_file_extension() -> str:
+        Retorna a extensão do arquivo de configuração.
+    - file_reader() -> dict:
+        Realiza a leitura do arquivo de configuração e retorna os dados
+        lidos.
+        Lança um erro caso o tipo de arquivo não seja suportado.
+    - config() -> dict:
+        Retorna os dados das configurações obtidos a partir do arquivo
+        especificado.
 
-        settings_file: type(str) = receives the path to the configuration file with the .toml extension
+    ----------------------------------------------------------------------
 
-        Method(s):
+    EN
+    ZeConfig is a class that manages application configurations,
+    making it easier to access sensitive data and database connection
+    information.
+    The class supports configuration files in TOML and JSON formats,
+    automatically identifying the file type and returning its content
+    in a structured format.
 
-        config: function() = reads the file and returns the data read.
+    Parameters:
+    - settings_file (str): Path to the configuration file to be read.
+
+    Methods:
+    - get_file_extension() -> str:
+        Returns the file extension of the configuration file.
+    - file_reader() -> dict:
+        Reads the configuration file and returns the data.
+        Raises an error if the file type is not supported.
+    - config() -> dict:
+        Returns configuration data obtained from the specified file.
     """
-    
+
     def __init__(self, settings_file: str):
         self.settings_file = settings_file
 
+    def __get_file_extension(self):
+        file_extension = self.settings_file.split('.')[-1]
+        return file_extension
+
+    def get_file_extension(self):
+        return self.__get_file_extension()
+
+    def __file_reader(self):
+        file_extension = self.__get_file_extension()
+
+        match file_extension:
+            case 'toml':
+                with open(self.settings_file, 'rb') as file:
+                    data = tomllib.load(file)
+                return data
+            case 'json':
+                with open(self.settings_file, 'r', encoding='utf-8') as file:
+                    data = json.load(file)
+                return data
+            case _:
+                raise ValueError('No support to the file type yet')
+
+    def file_reader(self):
+        return self.__file_reader()
+
+    def __set_config(self):
+        settings_data = self.__file_reader()
+        return settings_data
+
     def config(self):
-        with open(self.settings_file, 'rb') as file:
-            settings = tomllib.load(file)
-        return settings
+        return self.__set_config()
