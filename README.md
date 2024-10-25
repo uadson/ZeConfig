@@ -90,6 +90,6 @@ Exemplo de arquivo config.json:
 Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
 Licença
 
-Este projeto é licenciado sob a licença MIT LICENSE - consulte o arquivo LICENSE para mais detalhes.
+Este projeto é licenciado sob a licença MIT License - consulte o arquivo LICENSE para mais detalhes.
 
 _Uadson Feitosa_
