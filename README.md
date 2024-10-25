@@ -1,9 +1,7 @@
 # ZeConfig
 
-[![Tests](https://github.com/uadson/ZeConfig/actions/workflows/zconf-tests.yml/badge.svg?branch=main)](https://github.com/uadson/ZeConfig/actions/workflows/zconf-tests.yml)
-[![Buid](https://github.com/uadson/ZeConfig/actions/workflows/zconf-build.yml/badge.svg)](https://github.com/uadson/ZeConfig/actions/workflows/zconf-build.yml)
 
-ZeConfig é uma classe de gerenciador de configurações para aplicações Python. Este pacote foi criado para simplificar o acesso a dados de configuração sensíveis, como credenciais de banco de dados e informações de configuração que precisam ser lidas de forma segura e estruturada. ZeConfig suporta arquivos de configuração nos formatos **TOML** e **JSON**.
+ZeConfig é um gerenciador de configurações para aplicações Python. Este pacote foi criado para simplificar o acesso a dados de configuração sensíveis, como credenciais de banco de dados e informações de configuração que precisam ser lidas de forma segura e estruturada. ZeConfig suporta arquivos de configuração nos formatos **TOML** e **JSON**.
 
 ## Recursos
 
@@ -13,7 +11,7 @@ ZeConfig é uma classe de gerenciador de configurações para aplicações Pytho
 
 ## Instalação
 
-Para usar o ZeConfig, você pode copiar o código diretamente para seu projeto ou instalá-lo a partir do PyPI, quando disponível:
+Para usar o ZeConfig, você pode copiar o código diretamente para seu projeto ou instalá-lo a partir do PyPI:
 
 ```bash
 pip install zeconfig
