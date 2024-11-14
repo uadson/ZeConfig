@@ -1,9 +1,18 @@
 import json
+import os
+import pathlib
+
 
 try:
     import tomllib
 except ImportError:
     import tomli as tomllib
+
+
+class ConfigDirError(Exception):
+    def __init__(self, message="A directory name must be provided"):
+        self.message = message
+        super().__init__(self.message)
 
 
 class ZeConfig:
@@ -53,8 +62,17 @@ class ZeConfig:
         Returns configuration data obtained from the specified file.
     """
 
-    def __init__(self, settings_file: str):
+    def __init__(
+        self, 
+        settings_file: str, 
+        root_path: bool = False,
+        config_dir_name: str = '',
+        settings_file_path = '',
+    ):
         self.settings_file = settings_file
+        self.root_path = root_path
+        self.config_dir_name = config_dir_name
+        self.settings_file_path = settings_file_path
 
     def __get_file_extension(self):
         file_extension = self.settings_file.split('.')[-1]
@@ -63,6 +81,29 @@ class ZeConfig:
     def get_file_extension(self):
         return self.__get_file_extension()
 
+    def __get_root_path_name(self):
+        if self.root_path:
+            root_path = pathlib.Path(os.path.abspath(os.getcwd()))
+            return root_path.name
+        else:
+            return None
+
+    def get_root_path_name(self):
+        return self.__get_root_path_name()
+
+    def __validate_config_dir_name(self):
+        if self.root_path and self.config_dir_name != '':
+            root_path = pathlib.Path(os.path.abspath(os.getcwd()))
+            
+            for dir in os.scandir(self.root_path):
+                if dir.is_dir and dir.name == self.config_dir_name:
+                    settings_file = self.settings_file
+                    self.settings_file = os.path.join(root_path, root_path.name, self.config_dir_name, settings_file)
+            return self.settings_file
+        elif self.root_path and self.config_dir_name == '':
+            raise ConfigDirError
+            
+        
     def __file_reader(self):
         file_extension = self.__get_file_extension()
 

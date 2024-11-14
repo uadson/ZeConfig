@@ -60,3 +60,21 @@ def test_unsupported_file_type(tmp_path):
 
     with pytest.raises(ValueError, match='No support to the file type yet'):
         config.config()
+
+
+def test_get_root_path_name_none(toml_config):
+    config = ZeConfig(str(toml_config))
+    root_path_name = config.get_root_path_name()
+
+    expected_root_name = None
+
+    assert root_path_name == expected_root_name
+
+
+def test_get_root_path_name_true(toml_config):
+    config = ZeConfig(str(toml_config), root_path=True)
+    root_path_name = config.get_root_path_name()
+
+    expected_root_name = 'ZeConfig'
+
+    assert root_path_name == expected_root_name
