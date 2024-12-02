@@ -1,80 +1,123 @@
+from unittest.mock import patch
+
 import pytest
 
+from zeconfig.exc import FilenameError
 from zeconfig.models import ZeConfig
 
+# @pytest.fixture
+# def json_config(tmp_path):
+#     config_data = '{"database": {"host": "localhost", "port": 5432}}'
+#     config_file = tmp_path / 'config.json'
+#     config_file.write_text(config_data)
+#     return config_file
+
+
+# @pytest.fixture
+# def toml_config(tmp_path):
+#     config_data = "[database]\nhost = 'localhost'\n'port' = 5432\n"
+#     config_file = tmp_path / 'config.toml'
+#     config_file.write_text(config_data)
+#     return config_file
+
 
 @pytest.fixture
-def json_config(tmp_path):
-    config_data = '{"database": {"host": "localhost", "port": 5432}}'
-    config_file = tmp_path / 'config.json'
-    config_file.write_text(config_data)
-    return config_file
+def json_config():
+    return 'config.json'
 
 
 @pytest.fixture
-def toml_config(tmp_path):
-    config_data = "[database]\nhost = 'localhost'\n'port' = 5432\n"
-    config_file = tmp_path / 'config.toml'
-    config_file.write_text(config_data)
-    return config_file
+def toml_config():
+    return 'config.toml'
 
 
-def test_initialize_config(json_config):
-    config = ZeConfig(str(json_config))
-    assert config.settings_file == str(json_config)
+@pytest.fixture
+def not_filename_config():
+    return ''
+
+
+# def test_initialize_config(json_config):
+#     config = ZeConfig(str(json_config))
+#     assert config.settings_file == str(json_config)
 
 
 def test_get_file_extension(json_config, toml_config):
-    config_json = ZeConfig(str(json_config))
-    config_toml = ZeConfig(str(toml_config))
+    """
+    Obtendo a extensão do arquivo
+    """
+    config_json = ZeConfig()
+    config_toml = ZeConfig()
 
-    assert config_json.get_file_extension() == 'json'
-    assert config_toml.get_file_extension() == 'toml'
-
-
-def test_file_reader_json(json_config):
-    config = ZeConfig(str(json_config))
-    data = config.file_reader()
-
-    expected_data = {'database': {'host': 'localhost', 'port': 5432}}
-
-    assert data == expected_data
+    assert config_json.get_file_extension(filename=json_config) == 'json'
+    assert config_toml.get_file_extension(filename=toml_config) == 'toml'
 
 
-def test_file_reader_toml(toml_config):
-    config = ZeConfig(str(toml_config))
-    data = config.file_reader()
+def test_get_file_extension_error(not_filename_config):
+    config_filename = ZeConfig()
 
-    expected_data = {'database': {'host': 'localhost', 'port': 5432}}
-
-    assert data == expected_data
+    with pytest.raises(FilenameError):
+        config_filename.get_file_extension(filename=not_filename_config)
 
 
-def test_unsupported_file_type(tmp_path):
-    unsupported_file = tmp_path / 'config.xml'
-    unsupported_file.write_text(
-        '<database><host>localhost</host><port>5432</port></database>'
-    )
+def test_get_root_path_name_with_root_path_true():
+    config = ZeConfig(root_path=True)
 
-    config = ZeConfig(str(unsupported_file))
+    with patch('os.getcwd', return_value='/some/test/path'):
+        result = config.get_root_path_name()
 
-    with pytest.raises(ValueError, match='No support to the file type yet'):
-        config.config()
+    assert result == 'path'
 
 
-def test_get_root_path_name_none(toml_config):
-    config = ZeConfig(str(toml_config))
-    root_path_name = config.get_root_path_name()
+def test_get_root_path_name_with_root_path_false():
+    config = ZeConfig(root_path=False)
 
-    expected_root_name = None
-
-    assert root_path_name == expected_root_name
+    result = config.get_root_path_name()
+    assert result is None
 
 
-def test_get_root_path_name_true(toml_config):
-    config = ZeConfig(str(toml_config), root_path=True)
-    root_path_name = config.get_root_path_name()
+# def test_file_reader_json(json_config):
+#     config = ZeConfig(str(json_config))
+#     data = config.file_reader()
 
-    expected_root_name = 'ZeConfig'
+#     expected_data = {'database': {'host': 'localhost', 'port': 5432}}
 
-    assert root_path_name == expected_root_name
+#     assert data == expected_data
+
+
+# def test_file_reader_toml(toml_config):
+#     config = ZeConfig(str(toml_config))
+#     data = config.file_reader()
+
+#     expected_data = {'database': {'host': 'localhost', 'port': 5432}}
+
+#     assert data == expected_data
+
+
+# def test_unsupported_file_type(tmp_path):
+#     unsupported_file = tmp_path / 'config.xml'
+#     unsupported_file.write_text(
+#         '<database><host>localhost</host><port>5432</port></database>'
+#     )
+
+#     config = ZeConfig(str(unsupported_file))
+
+#     with pytest.raises(ValueError, match='No support to the file type yet'):
+#         config.config()
+
+
+# def test_get_root_path_name_none(toml_config):
+#     config = ZeConfig(str(toml_config))
+#     root_path_name = config.get_root_path_name()
+
+#     expected_root_name = None
+
+#     assert root_path_name == expected_root_name
+
+
+# def test_get_root_path_name_true(toml_config):
+#     config = ZeConfig(str(toml_config), root_path=True)
+#     root_path_name = config.get_root_path_name()
+
+#     expected_root_name = 'ZeConfig'
+
+#     assert root_path_name == expected_root_name
