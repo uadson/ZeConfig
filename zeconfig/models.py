@@ -1,6 +1,4 @@
 import json
-import os
-import pathlib
 
 try:
     import tomllib
@@ -32,8 +30,8 @@ class ZeConfig:
 
     """
 
-    def __init__(self, root_path=False):
-        self.root_path = root_path
+    def __init__(self):
+        pass
 
     @staticmethod
     def __get_file_extension(filename: str):
@@ -48,36 +46,6 @@ class ZeConfig:
 
     def get_file_extension(self, filename: str):
         return self.__get_file_extension(filename=filename)
-
-    def __get_root_path_name(self):
-        """
-        Obtém o nome do diretório raiz do caminho atual,
-        se `root_path` estiver configurado.
-        """
-        if self.root_path:
-            root_path = pathlib.Path(os.path.abspath(os.getcwd()))
-            return root_path.name
-        else:
-            return None
-
-    def get_root_path_name(self):
-        return self.__get_root_path_name()
-
-    # def __validate_config_dir_name(self):
-    #     if self.root_path and self.config_dir_name != '':
-    #         root_path = pathlib.Path(os.path.abspath(os.getcwd()))
-
-    #         for dir in os.scandir(self.root_path):
-    #             if dir.is_dir and dir.name == self.config_dir_name:
-    #                 settings_file = self.settings_file
-    #                 self.settings_file = os.path.join(
-    #                       root_path,
-    #                       root_path.name,
-    #                       self.config_dir_name,
-    #                       settings_file)
-    #         return self.settings_file
-    #     elif self.root_path and self.config_dir_name == '':
-    #         raise ConfigDirError
 
     def __file_reader(self, filename: str):
         file_extension = self.__get_file_extension(filename=filename)

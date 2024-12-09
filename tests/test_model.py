@@ -1,5 +1,3 @@
-from unittest.mock import patch
-
 import pytest
 
 from zeconfig.exc import FilenameError
@@ -36,6 +34,11 @@ def not_filename_config():
     return ''
 
 
+@pytest.fixture
+def other_file_extension():
+    return 'config.txt'
+
+
 # def test_initialize_config(json_config):
 #     config = ZeConfig(str(json_config))
 #     assert config.settings_file == str(json_config)
@@ -59,20 +62,11 @@ def test_get_file_extension_error(not_filename_config):
         config_filename.get_file_extension(filename=not_filename_config)
 
 
-def test_get_root_path_name_with_root_path_true():
-    config = ZeConfig(root_path=True)
+def text_get_other_file_extension_error(other_file_extension):
+    config_filename = ZeConfig()
 
-    with patch('os.getcwd', return_value='/some/test/path'):
-        result = config.get_root_path_name()
-
-    assert result == 'path'
-
-
-def test_get_root_path_name_with_root_path_false():
-    config = ZeConfig(root_path=False)
-
-    result = config.get_root_path_name()
-    assert result is None
+    with pytest.raises(FilenameError):
+        config_filename.get_file_extension(filename=other_file_extension)
 
 
 # def test_file_reader_json(json_config):
