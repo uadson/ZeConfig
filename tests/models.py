@@ -6,28 +6,7 @@ except ImportError:
     import tomli as tomllib
 
 
-class ZeConfig:
-    """
-    PT-BR
-    ZeConfig é uma classe que gerencia as configurações de uma aplicação,
-    facilitando o acesso a dados sensíveis e informações de conexão com
-    banco de dados.
-    A classe suporta arquivos de configuração em formato TOML e JSON,
-    identificando automaticamente o tipo de arquivo e retornando seu
-    conteúdo de forma estruturada.
-
-    ----------------------------------------------------------------------
-
-    EN
-    ZeConfig is a class that manages application configurations,
-    making it easier to access sensitive data and database connection
-    information.
-    The class supports configuration files in TOML and JSON formats,
-    automatically identifying the file type and returning its content
-    in a structured format.
-
-    """
-
+class ZeconfigMock:
     def __init__(self, settings_file: str, project_name: str):
         self.settings_file = settings_file
         self.project_name = project_name
@@ -71,10 +50,3 @@ class ZeConfig:
 
     def file_reader(self):
         return self.__file_reader()
-
-    def __set_config(self):
-        settings_data = self.__file_reader()
-        return settings_data
-
-    def config(self):
-        return self.__set_config()
