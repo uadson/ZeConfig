@@ -31,7 +31,8 @@ class ZeConfig:
     def __init__(self, settings_file: str, project_name: str):
         self.settings_file = settings_file
         self.project_name = project_name
-
+        self.env = 'development'
+        
     def __get_file_location(self):
         try:
             for dirname in os.scandir(os.getcwd()):
