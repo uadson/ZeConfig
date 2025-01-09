@@ -1,140 +1,140 @@
-from unittest.mock import MagicMock, mock_open, patch
+import argparse
+from unittest.mock import mock_open, patch
 
 import pytest
 
-from .models import ZeconfigMock
+from zeconfig import ZeConfig
 
 
-@pytest.fixture
-def zeconfig_instance():
-    return ZeconfigMock(settings_file='settings.toml', project_name='zproject')
+# Test for __get_env_from_cli_or_variable
+def test_get_env_from_cli_or_variable_dev():
+    with patch(
+        'argparse.ArgumentParser.parse_args',
+        return_value=argparse.Namespace(dev=True, staging=False, prod=False),
+    ):
+        with patch('os.getenv', return_value='development'):
+            zc = ZeConfig(
+                settings_file='config.toml', project_name='TEST_PROJECT'
+            )
+            assert zc.env == 'development'
 
 
-def test_get_file_location_file_found(zeconfig_instance):
-    """Settings file within root path"""
-    mock_file = MagicMock()
-    mock_file.is_file.return_value = True
-    mock_file.is_dir.return_value = False
-    mock_file.name = 'settings.toml'
-    mock_file.path = '/mock/path/settings.toml'
-
-    mock_dir = MagicMock()
-    mock_dir.is_dir.return_value = False
-
-    with patch('os.scandir') as mock_scandir:
-        mock_scandir.return_value = [mock_file, mock_dir]
-        result = zeconfig_instance.get_file_location()
-        assert result == '/mock/path/settings.toml'
+def test_get_env_from_cli_or_variable_staging():
+    with patch(
+        'argparse.ArgumentParser.parse_args',
+        return_value=argparse.Namespace(dev=False, staging=True, prod=False),
+    ):
+        with patch('os.getenv', return_value='staging'):
+            zc = ZeConfig(
+                settings_file='config.toml', project_name='TEST_PROJECT'
+            )
+            assert zc.env == 'staging'
 
 
-def test_get_file_location_file_in_dir(zeconfig_instance):
-    """Settings file within dir"""
-    mock_dir = MagicMock()
-    mock_dir.is_dir.return_value = True
-    mock_dir.is_file.return_value = False
-    mock_dir.path = '/mock/path'
-    mock_file = 'settings.toml'
+def test_get_env_from_cli_or_variable_prod():
+    with patch(
+        'argparse.ArgumentParser.parse_args',
+        return_value=argparse.Namespace(dev=False, staging=False, prod=True),
+    ):
+        with patch('os.getenv', return_value='production'):
+            zc = ZeConfig(
+                settings_file='config.toml', project_name='TEST_PROJECT'
+            )
+            assert zc.env == 'production'
 
+
+# Test for __get_file_location
+def test_get_file_location_found():
     with patch('os.scandir') as mock_scandir, patch(
-        'os.listdir'
-    ) as mock_listdir:
-        mock_scandir.return_value = [mock_dir]
-        mock_listdir.return_value = [mock_file]
-        assert (
-            zeconfig_instance.get_file_location() == '/mock/path/settings.toml'
-        )
+        'sys.argv', ['script_name']
+    ):
+        with patch('os.DirEntry') as mock_entry:
+            mock_entry.is_dir.return_value = False
+            mock_entry.is_file.return_value = True
+            mock_entry.name = 'settings.toml'
+            mock_entry.path = '/mock/path/settings.toml'
+            mock_scandir.return_value = [mock_entry]
+
+            zc = ZeConfig(
+                settings_file='settings.toml', project_name='TEST_PROJECT'
+            )
+            assert zc.get_file_location() == '/mock/path/settings.toml'
 
 
-def test_get_file_location_file_not_found(zeconfig_instance):
-    """When settings file is not found."""
-    with patch('os.scandir') as mock_scandir:
-        mock_scandir.return_value = []
-        assert zeconfig_instance.get_file_location() is None
+def test_get_file_location_not_found():
+    with patch('os.scandir', return_value=[]), patch(
+        'sys.argv', ['script_name']
+    ):
+        zc = ZeConfig(settings_file='config.toml', project_name='TEST_PROJECT')
+        with pytest.raises(FileNotFoundError):
+            zc.get_file_location()
 
 
-def test_get_file_location_exception_handling(zeconfig_instance):
-    """When there is exception during file search"""
-    with patch('os.scandir', side_effect=Exception('Error to access files')):
-        result = zeconfig_instance.get_file_location()
-        assert isinstance(result, Exception)
-        assert str(result) == 'Error to access files'
-
-
-def test_get_file_extension_valid(zeconfig_instance):
-    """When the file has a valid extension"""
+# Test for __get_file_extension
+def test_get_file_extension():
     with patch.object(
-        zeconfig_instance, '_ZeconfigMock__get_file_location'
-    ) as mock_get_file_location:
-        mock_get_file_location.return_value = '/mock/path/settings.toml'
-        result = zeconfig_instance.get_file_extension()
-        assert result == 'toml'
+        ZeConfig,
+        '_ZeConfig__get_file_location',
+        return_value='/mock/path/config.toml',
+    ), patch('sys.argv', ['script_name']):
+        zc = ZeConfig(settings_file='config.toml', project_name='TEST_PROJECT')
+        assert zc.get_file_extension() == 'toml'
 
 
-def test_get_file_extension_no_extension(zeconfig_instance):
-    """When file haven't extension"""
-    with patch.object(
-        zeconfig_instance, '_ZeconfigMock__get_file_location'
-    ) as mock_get_file_location:
-        mock_get_file_location.return_value = '/mock/path/settings'
-        result = zeconfig_instance.get_file_extension()
-        assert result == 'settings'
-
-
-def test_get_file_extension_error_handling(zeconfig_instance):
-    """When there is error to get file location."""
-    with patch.object(
-        zeconfig_instance, '_ZeconfigMock__get_file_location'
-    ) as mock_get_file_location:
-        mock_get_file_location.side_effect = FileNotFoundError(
-            'File not found'
-        )
-        result = zeconfig_instance.get_file_extension()
-        assert isinstance(result, FileNotFoundError), (
-            f'Esperado FileNotFoundError, mas obteve {type(result)}'
-        )
-        assert str(result) == 'File not found'
-
-
-def test_file_reader_toml_success(zeconfig_instance):
-    """Read file .toml successfully"""
-    mock_toml_content = b"""
-    [section]
+# Test for __file_reader
+def test_file_reader_valid_toml():
+    mock_toml_content = """
+    [development]
     key = "value"
     """
-    mock_data = {'section': {'key': 'value'}}
+    with patch('builtins.open', mock_open(read_data=mock_toml_content)):
+        with patch(
+            'tomllib.load', return_value={'development': {'key': 'value'}}
+        ), patch('sys.argv', ['script_name']):
+            zc = ZeConfig(
+                settings_file='settings.toml', project_name='TEST_PROJECT'
+            )
+            assert zc.file_reader() == {'development': {'key': 'value'}}
 
+
+def test_file_reader_invalid_toml():
+    mock_toml_content = 'Invalid TOML Content'
     with patch('builtins.open', mock_open(read_data=mock_toml_content)), patch(
-        'tomllib.load', return_value=mock_data
-    ), patch.object(
-        zeconfig_instance,
-        '_ZeconfigMock__get_file_extension',
-        return_value='toml',
-    ):
-        result = zeconfig_instance.file_reader()
-        assert result == mock_data
-
-
-def test_file_reader_unsupported_file_type(zeconfig_instance):
-    """File type no support"""
-    with patch.object(
-        zeconfig_instance,
-        '_ZeconfigMock__get_file_extension',
-        return_value='json',
-    ):
+        'tomllib.load', side_effect=ValueError
+    ), patch('sys.argv', ['script_name']):
+        zc = ZeConfig(
+            settings_file='settings.toml', project_name='TEST_PROJECT'
+        )
         with pytest.raises(
-            ValueError, match='No support to the file type yet'
+            RuntimeError,
+            match='An unexpected error occurred while reading the file',
         ):
-            zeconfig_instance.file_reader()
+            zc.file_reader()
 
 
-def test_file_reader_file_not_found(zeconfig_instance):
-    """Error to open file"""
-    with patch(
-        'builtins.open', side_effect=FileNotFoundError('File not found')
-    ), patch.object(
-        zeconfig_instance,
-        '_ZeconfigMock__get_file_extension',
-        return_value='toml',
+# Test for get_env
+def test_get_env_key_found():
+    mock_data = {'development': {'key': 'value'}}
+    with patch.object(
+        ZeConfig, '_ZeConfig__file_reader', return_value=mock_data
     ):
-        with pytest.raises(FileNotFoundError, match='File not found'):
-            zeconfig_instance.file_reader()
+        zc = ZeConfig(
+            settings_file='config.toml',
+            project_name='TEST_PROJECT',
+            env='development',
+        )
+        assert zc.get_env('key') == 'value'
+
+
+def test_get_env_key_not_found():
+    mock_data = {'development': {'key': 'value'}}
+    with patch.object(
+        ZeConfig, '_ZeConfig__file_reader', return_value=mock_data
+    ):
+        zc = ZeConfig(
+            settings_file='config.toml',
+            project_name='TEST_PROJECT',
+            env='development',
+        )
+        with pytest.raises(KeyError):
+            zc.get_env('nonexistent_key')
