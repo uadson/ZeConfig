@@ -3,96 +3,119 @@
 [![Tests](https://github.com/uadson/ZeConfig/actions/workflows/zconf-tests.yml/badge.svg)](https://github.com/uadson/ZeConfig/actions/workflows/zconf-tests.yml)
 [![Release](https://github.com/uadson/ZeConfig/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/uadson/ZeConfig/actions/workflows/release.yml)
 
-ZeConfig é um gerenciador de configurações para aplicações Python. Este pacote foi criado para simplificar o acesso a dados de configuração sensíveis, como credenciais de banco de dados e informações de configuração que precisam ser lidas de forma segura e estruturada. ZeConfig suporta arquivos de configuração nos formatos **TOML** e **JSON**.
+ZeConfig is a Python library designed to manage application configurations, making it easier to handle sensitive data and environment-specific settings. It supports configuration files in both TOML and JSON formats and provides utilities for identifying, reading, and parsing configuration files.
 
-## Recursos
+## Features
 
-- **Leitura de arquivos TOML e JSON**: Identifica automaticamente o formato do arquivo de configuração e o carrega conforme necessário.
-- **Acesso facilitado a dados sensíveis**: Centraliza e estrutura as informações de configuração da aplicação.
-- **Interface simples**: Métodos intuitivos para acessar e manipular as configurações.
+- Automatic detection of configuration file location within the current directory or its subdirectories.
+- Support for TOML configuration files.
+- Environment management (e.g., development, staging, production).
+- Easy access to environment-specific keys and values.
 
-## Instalação
+## Installation
 
-Para usar o ZeConfig, você pode copiar o código diretamente para seu projeto ou instalá-lo a partir do PyPI:
-
-```bash
-pip install zeconfig
-```
-ou
+Clone the repository or copy the `zeconfig.py` file into your project directory.
 
 ```bash
-poetry add zeconfig
+# Clone the repository
+git clone https://github.com/uadson/zeconfig.git
 ```
 
-## Uso
-Exemplo básico de uso da classe ZeConfig:
+Ensure you have Python 3.11+ installed. If your Python version is below 3.11, you may need to install the `tomli` library for TOML parsing:
 
 ```bash
-    from zeconfig import ZeConfig
-
-    # Inicializa o gerenciador de configurações com o caminho para o arquivo
-    zconf = ZeConfig("config.toml")
-
-    # Carrega as configurações do arquivo
-    config = zconf.config()
-
-    # Exibe as configurações
-    print(config)
+pip install tomli
 ```
 
-## Estrutura da Classe
-### ZeConfig
+## Usage
 
-A classe principal do pacote, responsável por:
+### 1. Initialize ZeConfig
 
-    Identificar o formato do arquivo de configuração com base em sua extensão.
-    Carregar dados de arquivos JSON e TOML.
-    Retornar as configurações de maneira estruturada.
+Create an instance of the `ZeConfig` class:
 
-Principais Métodos
+```python
+from zeconfig import ZeConfig
 
-    config(): Carrega e retorna o conteúdo do arquivo de configuração.
-    get_file_extension(): Retorna a extensão do arquivo de configuração.
-    file_reader(): Lê e retorna os dados do arquivo de configuração, lançando um erro caso o tipo de arquivo não seja suportado.
+# Initialize with the configuration file name and project name
+ze = ZeConfig(settings_file="config.toml", project_name="MyApp")
+```
 
-Formatos de Arquivo Suportados
+### 2. Retrieve Configuration File Location
 
-ZeConfig oferece suporte para arquivos nos seguintes formatos:
+```python
+file_location = ze.get_file_location()
+print(f"Configuration file is located at: {file_location}")
+```
 
-    TOML (.toml)
-    JSON (.json)
+### 3. Read Configuration Data
 
-## Exemplo de Configuração
+Parse the TOML configuration file:
 
-Exemplo de arquivo config.toml:
+```python
+config_data = ze.file_reader()
+print(config_data)
+```
+
+### 4. Manage Environment Settings
+
+Set the application environment:
+
+```python
+ze.set_env("staging")
+```
+
+Retrieve a value for a specific key in the current environment:
+
+```python
+database_url = ze.get_env("DATABASE_URL")
+print(f"Database URL: {database_url}")
+```
+
+### 5. Command-Line Integration
+
+The environment can also be set via command-line arguments:
 
 ```bash
-    [database]
-    host = "localhost"
-    port = 5432
-    user = "admin"
-    password = "senha_segura"
+python your_script.py --dev  # Set environment to development
 ```
 
-Exemplo de arquivo config.json:
+## Configuration File Format
 
+### Example `config.toml`
 
-```bash
-    {
-        "database": {
-            "host": "localhost",
-            "port": 5432,
-            "user": "admin",
-            "password": "senha_segura"
-        }
-    }
+```toml
+[development]
+DATABASE_URL = "sqlite:///dev.db"
+SECRET_KEY = "dev-secret"
+
+[staging]
+DATABASE_URL = "postgresql://staging-user:password@localhost/staging"
+SECRET_KEY = "staging-secret"
+
+[production]
+DATABASE_URL = "postgresql://prod-user:password@localhost/production"
+SECRET_KEY = "prod-secret"
 ```
 
-## Contribuição
+## Error Handling
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests.
-Licença
+ZeConfig raises descriptive exceptions for common issues:
 
-Este projeto é licenciado sob a licença MIT License - consulte o arquivo LICENSE para mais detalhes.
+- `FileNotFoundError`: Configuration file not found.
+- `KeyError`: Missing environment or key in the configuration file.
+- `ValueError`: Unsupported file type or parsing error.
+- `RuntimeError`: Unexpected runtime errors.
 
-_Uadson Feitosa_
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request on the [GitHub repository](https://github.com/uadson/zeconfig).
+
+## Contact
+
+For questions or support, please reach out to [uadsonpy@gmail.com](mailto:uadsonpy@gmail.com).
+
+
