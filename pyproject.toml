@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zeconfig"
-version = "0.0.7"
+version = "0.0.8"
 description = "Settings Manager"
 authors = ["Uadson Feitosa <uadsonpy@gmail.com>"]
 license = "MIT LICENSE"
