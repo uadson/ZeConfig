@@ -22,7 +22,6 @@ class ZeConfig:
 
     Attributes:
         settings_file (str): Name of the configuration file.
-        project_name (str): Name of the project, used as an environment variable.
         env (str): Current environment (e.g., development, staging, production).
 
     Methods:
