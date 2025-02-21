@@ -3,7 +3,7 @@ from unittest.mock import mock_open, patch
 
 import pytest
 
-from zeconfig import ZeConfig
+from src import ZeConfig
 
 
 # Test for __get_env_from_cli_or_variable
