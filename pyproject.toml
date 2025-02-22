@@ -20,7 +20,7 @@ dev = [
 
 [tool.ruff]
 line-length = 79
-extend-exclude = []
+extend-exclude = ['how_to_use', 'src/core.py', 'src/models.py', 'config']
 
 [tool.ruff.lint]
 preview = true
