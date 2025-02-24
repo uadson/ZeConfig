@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "colorama>=0.4.6",
     "python-dotenv>=1.0.1",
     "pyyaml>=6.0.2",
     "tomli>=2.2.1",
@@ -19,7 +20,7 @@ dev = [
 ]
 
 [tool.ruff]
-line-length = 79
+line-length = 85
 extend-exclude = ['how_to_use', 'src/core.py', 'src/models.py', 'config']
 
 [tool.ruff.lint]
