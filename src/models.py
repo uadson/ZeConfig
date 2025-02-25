@@ -1,6 +1,5 @@
 import json
 from abc import ABC, abstractmethod
-from pathlib import Path
 
 import yaml
 from dotenv import dotenv_values
@@ -9,10 +8,6 @@ try:
     import tomllib
 except ImportError:
     import tomli as tomllib
-
-from typing import Optional
-
-import os
 
 
 class ConfigParser(ABC):
@@ -50,7 +45,8 @@ class TOMLParser(ConfigParser):
     @classmethod
     def parse(cls, file_path: str) -> dict:
         """Parses a YAML configuration file."""
-        return tomllib.load(file_path)
+        with open(file_path, "rb") as file:
+            return tomllib.load(file)
 
 
 class YAMLParser(ConfigParser):
@@ -68,5 +64,3 @@ class ENVParser(ConfigParser):
     def parse(cls, file_path: str) -> dict:
         """Parses a .env configuration file."""
         return dotenv_values(file_path)
-
-

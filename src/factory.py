@@ -1,12 +1,6 @@
 from pathlib import Path
 
-from models import (
-    ConfigParser,
-    JSONParser,
-    TOMLParser,
-    YAMLParser,
-    ENVParser
-)
+from .models import ConfigParser, ENVParser, JSONParser, TOMLParser, YAMLParser
 
 
 class ParserFactory:
@@ -39,7 +33,7 @@ class ParserFactory:
 
         ext = Path(file_path).suffix
         parser_class = ParserFactory._parsers.get(ext)
-        
+
         if not parser_class:
             raise ValueError(f"Unsupported file extension: '{ext}'.")
 

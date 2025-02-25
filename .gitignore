@@ -165,4 +165,3 @@ cython_debug/
 .ruff_cache
 table_tests
 .gitpod.yml
-how_to_use

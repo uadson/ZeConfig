@@ -1,3 +1,3 @@
-from .core import ZeConfig
+from . import factory, manager, models, settings, ze
 
-__all__ = ['ZeConfig']
+__all__ = ['factory', 'manager', 'models', 'settings', 'ze']
