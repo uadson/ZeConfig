@@ -243,6 +243,11 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "coverage" },
+    { name = "iniconfig" },
+    { name = "packaging" },
+    { name = "pluggy" },
+    { name = "psutil" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
@@ -251,14 +256,19 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "python-dotenv", specifier = ">=1.0.1" },
-    { name = "pyyaml", specifier = ">=6.0.2" },
+    { name = "python-dotenv", specifier = "==1.0.1" },
+    { name = "pyyaml", specifier = "==6.0.2" },
 ]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "pytest", specifier = ">=8.3.4" },
-    { name = "pytest-cov", specifier = ">=6.0.0" },
-    { name = "ruff", specifier = ">=0.9.7" },
-    { name = "taskipy", specifier = ">=1.14.1" },
+    { name = "coverage", specifier = "==7.6.12" },
+    { name = "iniconfig", specifier = "==2.0.0" },
+    { name = "packaging", specifier = "==24.2" },
+    { name = "pluggy", specifier = "==1.5.0" },
+    { name = "psutil", specifier = "==6.1.1" },
+    { name = "pytest", specifier = "==8.3.4" },
+    { name = "pytest-cov", specifier = "==6.0.0" },
+    { name = "ruff", specifier = "==0.9.7" },
+    { name = "taskipy", specifier = "==1.14.1" },
 ]
