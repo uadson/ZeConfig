@@ -48,6 +48,9 @@ Retrieve a value for a specific key in the current environment:
 ```python
 DATABASE_URL = config("DATABASE_URL")
 print(f"Database URL: {DATABASE_URL}")
+
+>>> OUTPUT: 
+    sqlite:///dev.db
 ```
 
 ## Error Handling
