@@ -70,5 +70,5 @@ class ConfigManager:
         cls._load_config_files()
 
         if cls._config_data.get(key, default) is None:
-            raise ValueError(f"""Key: '{key}' not found or file non exists""")
+            raise KeyError(f"""Key: '{key}' not found or file non exists""")
         return cls._config_data.get(key, default)
