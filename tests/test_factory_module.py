@@ -5,6 +5,16 @@ from src.models import ENVParser, JSONParser, TOMLParser, YAMLParser
 
 
 def test_get_parser_valid_extension():
+    """Test parser instantiation for supported file extensions.
+
+    Verifies that ParserFactory returns appropriate parser instances for:
+    - JSON (.json)
+    - TOML (.toml)
+    - YAML (.yml/.yaml)
+    - ENV (.env)
+
+    Checks correct type instantiation for each supported file format.
+    """
     assert isinstance(ParserFactory.get_parser('config.json'), JSONParser)
     assert isinstance(ParserFactory.get_parser('config.toml'), TOMLParser)
     assert isinstance(ParserFactory.get_parser('config.yml'), YAMLParser)

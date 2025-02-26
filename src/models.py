@@ -4,10 +4,7 @@ from abc import ABC, abstractmethod
 import yaml
 from dotenv import dotenv_values
 
-try:
-    import tomllib
-except ImportError:
-    import tomli as tomllib
+import tomllib
 
 
 class ConfigParser(ABC):
@@ -28,8 +25,7 @@ class ConfigParser(ABC):
         Returns:
             dict: Parsed configuration data.
         """
-        pass
-
+        
 
 class JSONParser(ConfigParser):
 
@@ -54,7 +50,7 @@ class YAMLParser(ConfigParser):
     @classmethod
     def parse(cls, file_path: str) -> dict:
         """Parses a YAML configuration file."""
-        with open(file_path, 'r', encoding='utf-8') as file:
+        with open(file_path, "rb") as file:
             return yaml.safe_load(file)
 
 
@@ -63,4 +59,12 @@ class ENVParser(ConfigParser):
     @classmethod
     def parse(cls, file_path: str) -> dict:
         """Parses a .env configuration file."""
-        return dotenv_values(file_path)
+        # return dotenv_values(file_path)
+        config = {}
+        with open(file_path, 'r') as file:
+            for line in file:
+                line = line.strip()
+                if line and not line.startswith('#'):
+                    key, value = line.split('=', 1)
+                    config[key] = value
+        return config

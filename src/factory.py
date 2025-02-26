@@ -32,6 +32,9 @@ class ParserFactory:
         """
 
         ext = Path(file_path).suffix
+        if not ext:
+            ext = Path(file_path).name
+
         parser_class = ParserFactory._parsers.get(ext)
 
         if not parser_class:
