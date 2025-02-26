@@ -63,5 +63,5 @@ def test_get_value_raises_error(path):
     Args:
         path: The path to the temporary directory containing configuration files.
     """
-    with pytest.raises(ValueError, match="""Key: 'nonexistent_key' not found or file non exists"""):
+    with pytest.raises(KeyError, match="""Key: 'nonexistent_key' not found or file non exists"""):
         ConfigManager.get('nonexistent_key')
