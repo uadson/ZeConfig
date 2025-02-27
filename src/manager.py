@@ -1,8 +1,8 @@
 from pathlib import Path
 from typing import Optional
 
-from .core import get_file_data
-from .settings import settings
+from src.core import get_file_data
+from src.settings import settings
 
 
 class ConfigManager:

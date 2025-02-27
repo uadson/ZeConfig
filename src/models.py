@@ -2,7 +2,6 @@ import json
 from abc import ABC, abstractmethod
 
 import yaml
-from dotenv import dotenv_values
 
 import tomllib
 
@@ -59,7 +58,6 @@ class ENVParser(ConfigParser):
     @classmethod
     def parse(cls, file_path: str) -> dict:
         """Parses a .env configuration file."""
-        # return dotenv_values(file_path)
         config = {}
         with open(file_path, 'r') as file:
             for line in file:

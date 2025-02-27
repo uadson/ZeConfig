@@ -1,6 +1,6 @@
 import os
 
-from .factory import ParserFactory
+from src.factory import ParserFactory
 
 from typing import List, AnyStr, Dict
 

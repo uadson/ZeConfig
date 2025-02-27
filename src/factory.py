@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from .models import ConfigParser, ENVParser, JSONParser, TOMLParser, YAMLParser
+from src.models import ConfigParser, ENVParser, JSONParser, TOMLParser, YAMLParser
 
 
 class ParserFactory:
