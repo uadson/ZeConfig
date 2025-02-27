@@ -3,6 +3,10 @@
 [![Tests](https://github.com/uadson/ZeConfig/actions/workflows/zconf-tests.yml/badge.svg)](https://github.com/uadson/ZeConfig/actions/workflows/zconf-tests.yml)
 [![Release](https://github.com/uadson/zeconfig/actions/workflows/release.yml/badge.svg)](https://github.com/uadson/zeconfig/actions/workflows/release.yml)
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/be41acda-3565-477a-9886-8944b6af9573" alt="ZeConfig" width="600">
+</p>
+
 ZeConfig é uma biblioteca Python projetada para gerenciar configurações de aplicativos, facilitando o manuseio de dados confidenciais e configurações específicas do ambiente. Ela oferece suporte a arquivos de configuração nos formatos TOM, JSON, YAML, YML e ENV.
 
 ## Recursos
