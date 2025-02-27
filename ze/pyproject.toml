@@ -1,13 +1,13 @@
 [project]
 name = "zeconfig"
-version = "0.1.2"
+version = "0.1.3"
 description = "Configuration Manager Package"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "python-dotenv==1.0.1",
     "pyyaml==6.0.2",
-    "setuptools>=75.8.2",
+    "tomli>=2.2.1",
 ]
 
 [dependency-groups]
@@ -23,9 +23,16 @@ dev = [
     "taskipy==1.14.1",
 ]
 
+[tool.setuptools]
+packages = ["ze", "ze.src"]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [tool.ruff]
 line-length = 120
-extend-exclude = ['how_to_use', 'src/core.py', 'src/models.py', 'config']
+extend-exclude = []
 
 [tool.ruff.lint]
 preview = true
