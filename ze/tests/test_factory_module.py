@@ -1,7 +1,7 @@
 import pytest
 
-from src.factory import ParserFactory
-from src.models import ENVParser, JSONParser, TOMLParser, YAMLParser
+from ze.src.factory import ParserFactory
+from ze.src.models import ENVParser, JSONParser, TOMLParser, YAMLParser
 
 
 def test_get_parser_valid_extension():

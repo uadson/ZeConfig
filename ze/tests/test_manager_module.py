@@ -2,8 +2,8 @@ import os
 
 import pytest
 
-from src.manager import ConfigManager
-from src.settings import settings
+from ze.src.manager import ConfigManager
+from ze.src.settings import settings
 
 
 def test_load_config_json_file_in_configs_dir(path):

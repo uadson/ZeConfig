@@ -1,4 +1,4 @@
-from src.models import ENVParser, JSONParser, TOMLParser, YAMLParser
+from ze.src.models import ENVParser, JSONParser, TOMLParser, YAMLParser
 
 
 def test_model_json_parser(json_file):

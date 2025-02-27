@@ -1,6 +1,6 @@
 import os
 
-from src.core import get_file_data, parse_data
+from ze.src.core import get_file_data, parse_data
 
 
 def test_parse_data_json_file(path, empty_config_data):

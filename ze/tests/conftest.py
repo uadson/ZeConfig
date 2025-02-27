@@ -4,8 +4,8 @@ import tempfile
 
 import pytest
 
-from src.manager import ConfigManager
-from src.settings import settings
+from ze.src.manager import ConfigManager
+from ze.src.settings import settings
 
 
 @pytest.fixture
