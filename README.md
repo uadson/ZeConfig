@@ -1,5 +1,5 @@
 # ZeConfig [EN](README.md)   -   [BR](README_BR.md)
-[![Buid](https://github.com/uadson/ZeConfig/actions/workflows/zconf-build.yml/badge.svg)](https://github.com/uadson/ZeConfig/actions/workflows/zconf-build.yml)
+[![Buid](https://github.com/uadson/zeconfig/actions/workflows/zconf-build.yml/badge.svg)](https://github.com/uadson/zeconfig/actions/workflows/zconf-build.yml)
 [![Tests](https://github.com/uadson/ZeConfig/actions/workflows/zconf-tests.yml/badge.svg)](https://github.com/uadson/ZeConfig/actions/workflows/zconf-tests.yml)
 [![Release](https://github.com/uadson/zeconfig/actions/workflows/release.yml/badge.svg)](https://github.com/uadson/zeconfig/actions/workflows/release.yml)
 
