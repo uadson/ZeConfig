@@ -3,7 +3,11 @@
 [![Tests](https://github.com/uadson/ZeConfig/actions/workflows/zconf-tests.yml/badge.svg)](https://github.com/uadson/ZeConfig/actions/workflows/zconf-tests.yml)
 [![Release](https://github.com/uadson/zeconfig/actions/workflows/release.yml/badge.svg)](https://github.com/uadson/zeconfig/actions/workflows/release.yml)
 
-![Image](https://github.com/user-attachments/assets/bb367b40-37ca-4ff5-858d-f2b809c0eb0e)
+
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/be41acda-3565-477a-9886-8944b6af9573" alt="ZeConfig" width="600">
+</p>
 
 ZeConfig is a Python library designed to manage application configurations, making it easier to handle sensitive data and environment-specific settings. It supports configuration files in both TOM, JSON, YAML, YML and ENV formats.
 
