@@ -1,6 +1,6 @@
 [project]
 name = "zeconfig"
-version = "0.0.9"
+version = "0.1.0"
 description = "Configuration Manager Package"
 readme = "README.md"
 requires-python = ">=3.12"
