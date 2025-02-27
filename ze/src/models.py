@@ -3,7 +3,10 @@ from abc import ABC, abstractmethod
 
 import yaml
 
-import tomllib
+try:
+    import tomllib
+except ImportError:
+    import tomli as tomllib
 
 
 class ConfigParser(ABC):
